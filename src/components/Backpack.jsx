@@ -4,19 +4,12 @@ import { useLoader, Canvas } from '@react-three/fiber';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import 'aframe';
 import 'aframe-ar';
-import { ARButton, XR } from '@react-three/xr'
 import { Entity, Scene } from 'aframe-react';
+import  ModelViewer  from 'react-ar-viewer';
 // import "@google/model-viewer/dist/model-viewer";
 
 const Backpack = ({ backpack, color, material, metall, isArVisible }) => {
-  // const [isLoading, setIsLoading] = useState(true);
-
-  // const backpack = useLoader(
-  //   GLTFLoader,
-  //   'https://myassetsfordev.s3.eu-north-1.amazonaws.com/backpack.glb',
-  //   () => setIsLoading(false)
-  //   );
-
+  console.log("🚀 ~ file: Backpack.jsx:12 ~ Backpack ~ backpack:", backpack)
   const group = useRef();
 
   const [
@@ -155,7 +148,7 @@ const Backpack = ({ backpack, color, material, metall, isArVisible }) => {
 
   return (
     <>
-      {isArVisible && (
+      {/* {isArVisible && (
         <Scene embedded arjs='sourceType: webcam'>
           <a-camera-static/>
           <a-gltf-model 
@@ -165,20 +158,26 @@ const Backpack = ({ backpack, color, material, metall, isArVisible }) => {
             position="0 1 -1"
           ></a-gltf-model>
         </Scene>
-      )}
-
-      {/* {isArVisible && (
-        <>
-          <ARButton />
-          <Canvas>
-            <ambientLight intensity={0.7} />
-            <pointLight position={[10, 10, 10]} />
-            <XR>
-              <primitive object={backpack.scene} scale={[5, 5, 5]} rotation={[0, -1, 0]}/>
-            </XR>
-          </Canvas>
-        </>
       )} */}
+      {isArVisible && (
+        <ModelViewer
+          buttonImage={'https://picsum.photos/200/200'}
+          buttonText={'View in your space'}
+          width={'100vw'}
+          height={'100vh'}
+          src={'https://myassetsfordev.s3.eu-north-1.amazonaws.com/backpack.glb'}
+          iosSrc={'https://myassetsfordev.s3.eu-north-1.amazonaws.com/backpack.glb'}
+          poster={''}
+          alt={'Sample usage on component'}
+          cameraControls={true}
+          ar={true}
+          cameraTarget={'0m 0m 0m'}
+          cameraOrbit={'0 deg 0deg 0%'}
+          exposure={1}
+          shadowSoftness={0}
+          autoPlay={true}
+        />
+      )}
 
       {!isArVisible && (
         <group ref={group} position={[0, -0.2, 0]}>
