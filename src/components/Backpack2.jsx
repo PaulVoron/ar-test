@@ -1,9 +1,9 @@
-import React, { useRef } from 'react';
+import React, { useRef, Suspense  } from 'react';
 import * as THREE from 'three';
-import { useLoader } from '@react-three/fiber';
+import { useLoader, useFrame, Canvas } from '@react-three/fiber';
 import 'aframe';
 import 'aframe-ar';
-import  ModelViewer  from 'react-ar-viewer';
+import ModelViewer from 'react-ar-viewer';
 // import { Entity, Scene } from 'aframe-react';
 // import "@google/model-viewer/dist/model-viewer";
 
@@ -144,42 +144,49 @@ const Backpack = ({ backpack, color, material, metall, isArVisible }) => {
   bodyObject.material.color = new THREE.Color(color);
   strapObject.material.color = new THREE.Color(color);
 
+  useFrame(({ gl }) => {
+    if (isArVisible) {
+      const session = gl.xr.getSession();
+      if (session) {
+        const xrViewerPose = gl.xr.getViewerPose(session);
+        if (xrViewerPose) {
+          const xrHitTestResults = gl.xr.getHitTestResults(session);
+          if (xrHitTestResults.length > 0) {
+            const hit = xrHitTestResults[0];
+            const pose = hit.getPose(xrViewerPose.transform);
+            if (pose) {
+              // Perform AR-related tasks here, such as positioning and scaling the object
+              group.current.position.copy(pose.transform.position);
+              group.current.quaternion.copy(pose.transform.orientation);
+            }
+          }
+        }
+      }
+    }
+  });
+
   return (
     <>
-      {/* {isArVisible && (
-        <Scene embedded arjs='sourceType: webcam'>
-          <a-camera-static/>
-          <a-gltf-model 
-            src="https://myassetsfordev.s3.eu-north-1.amazonaws.com/backpack.glb"
-            scale="1.05 1.05 1.05"
-            rotation="0 -45 0"
-            position="0 1 -1"
-          ></a-gltf-model>
-        </Scene>
-      )} */}
       {isArVisible && (
-        <ModelViewer
-          buttonImage={'https://picsum.photos/200/200'}
-          buttonText={'View in your space'}
-          width={'90vw'}
-          height={'90vw'}
-          src={'https://myassetsfordev.s3.eu-north-1.amazonaws.com/backpack.glb'}
-          iosSrc={'https://myassetsfordev.s3.eu-north-1.amazonaws.com/backpack.usdz'}
-          poster={''}
-          alt={'Sample usage on component'}
-          cameraControls={true}
-          ar={true}
-          cameraTarget={'0m 0m 0m'}
-          cameraOrbit={'0 deg 0deg 0%'}
-          exposure={1}
-          shadowSoftness={0}
-          autoPlay={true}
+        <>
+        <Canvas
+          style={{
+            width: '100vw',
+            height: '100vh',
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            zIndex: 999,
+          }}
         />
+        </>
       )}
 
       {!isArVisible && (
         <group ref={group} position={[0, -0.2, 0]}>
-          <primitive object={backpack.scene} scale={[1, 1, 1]} />
+          <Suspense fallback={null}>
+            <primitive object={backpack.scene} scale={[1, 1, 1]} />
+          </Suspense>
         </group>
       )}
     </>

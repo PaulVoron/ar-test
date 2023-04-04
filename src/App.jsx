@@ -118,9 +118,7 @@ function App() {
       <div className="body_container">
         {isArVisible && (
           <div className="canvas">
-            <ambientLight intensity={0.7} />
-            <directionalLight position={[14, 12, 25]} intensity={1} />
-            <Backpack backpack={backpack} color={color} material={material} metall={metall} isArVisible={isArVisible} />
+              <Backpack backpack={backpack} color={color} material={material} metall={metall} isArVisible={isArVisible} />
           </div>
         )}
 
