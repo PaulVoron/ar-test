@@ -157,6 +157,7 @@ const Backpack = ({ backpack, color, material, metall, isArVisible }) => {
     <>
       {isArVisible && (
         <Scene embedded arjs='sourceType: webcam'>
+          <a-camera-static/>
           <a-gltf-model 
             src="https://myassetsfordev.s3.eu-north-1.amazonaws.com/backpack.glb"
             scale="1.05 1.05 1.05"
