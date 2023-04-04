@@ -42,27 +42,27 @@
 }
 
 .button--leather {
-  background-image: url('leather.png');
+  background-image: url('https://myassetsfordev.s3.eu-north-1.amazonaws.com/leather.png');
 }
 
 .button--fabric {
-  background-image: url('fabric.png');
+  background-image: url('https://myassetsfordev.s3.eu-north-1.amazonaws.com/fabric.png');
 }
 
 .button--denim {
-  background-image: url('denim.png');
+  background-image: url('https://myassetsfordev.s3.eu-north-1.amazonaws.com/denim.png');
 }
 
 .button--silver {
-  background-image: url('silver.png');
+  background-image: url('https://myassetsfordev.s3.eu-north-1.amazonaws.com/silver.png');
 }
 
 .button--gold {
-  background-image: url('gold.png');
+  background-image: url('https://myassetsfordev.s3.eu-north-1.amazonaws.com/gold.png');
 }
 
 .button--black {
-  background-image: url('black.png');
+  background-image: url('https://myassetsfordev.s3.eu-north-1.amazonaws.com/black.png');
 }
 
 .body_container {

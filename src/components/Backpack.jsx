@@ -1,19 +1,23 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import * as THREE from 'three';
 import { useLoader, Canvas } from '@react-three/fiber';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import 'aframe';
 import 'aframe-ar';
 import { ARButton, XR } from '@react-three/xr'
-// import { Entity, Scene } from 'aframe-react';
+import { Entity, Scene } from 'aframe-react';
 // import "@google/model-viewer/dist/model-viewer";
 
-const Backpack = ({ color, material, metall, isArVisible }) => {
+const Backpack = ({ backpack, color, material, metall, isArVisible }) => {
+  // const [isLoading, setIsLoading] = useState(true);
+
+  // const backpack = useLoader(
+  //   GLTFLoader,
+  //   'https://myassetsfordev.s3.eu-north-1.amazonaws.com/backpack.glb',
+  //   () => setIsLoading(false)
+  //   );
+
   const group = useRef();
-  const backpack = useLoader(
-    GLTFLoader,
-    'https://myassetsfordev.s3.eu-north-1.amazonaws.com/backpack.glb'
-  );
 
   const [
     denimBaseColorTexture,
@@ -151,8 +155,8 @@ const Backpack = ({ color, material, metall, isArVisible }) => {
 
   return (
     <>
-      {/* {isArVisible && (
-        <Scene embedded arjs='sourceType: webcam;'>
+      {isArVisible && (
+        <Scene embedded arjs='sourceType: webcam'>
           <a-gltf-model 
             src="https://myassetsfordev.s3.eu-north-1.amazonaws.com/backpack.glb"
             scale="1.05 1.05 1.05"
@@ -160,9 +164,9 @@ const Backpack = ({ color, material, metall, isArVisible }) => {
             position="0 1 -1"
           ></a-gltf-model>
         </Scene>
-      )} */}
+      )}
 
-      {isArVisible && (
+      {/* {isArVisible && (
         <>
           <ARButton />
           <Canvas>
@@ -173,7 +177,7 @@ const Backpack = ({ color, material, metall, isArVisible }) => {
             </XR>
           </Canvas>
         </>
-      )}
+      )} */}
 
       {!isArVisible && (
         <group ref={group} position={[0, -0.2, 0]}>

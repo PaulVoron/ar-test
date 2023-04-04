@@ -1,6 +1,7 @@
 import './App.css'
-import React, { useRef, useState } from 'react';
-import { Canvas } from '@react-three/fiber';
+import React, { useEffect, useRef, useState } from 'react';
+import { useLoader, Canvas } from '@react-three/fiber';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { OrbitControls } from '@react-three/drei'
 import Backpack from './components/Backpack';
 import {QRCodeSVG} from 'qrcode.react';
@@ -11,6 +12,16 @@ function App() {
   const [material, setMaterial] = useState('leather');
   const [metall, setMetall] = useState('silver');
   const [isArVisible, setIsArVisible] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
+  const backpack = useLoader(
+    GLTFLoader,
+    'https://myassetsfordev.s3.eu-north-1.amazonaws.com/backpack.glb',
+    );
+  
+  useEffect(() => {
+    setIsLoading(false);
+  }, []);
 
   const handleColorChange = (newColor) => {
     setColor(newColor);
@@ -107,24 +118,28 @@ function App() {
       <div className="body_container">
         {isArVisible && (
           <div className="canvas">
-            <h2>Режим AR</h2>
             <ambientLight intensity={0.7} />
             <directionalLight position={[14, 12, 25]} intensity={1} />
-            <Backpack color={color} material={material} metall={metall} isArVisible={isArVisible} />
+            <Backpack backpack={backpack} color={color} material={material} metall={metall} isArVisible={isArVisible} />
           </div>
         )}
 
         {!isArVisible && (
           <>
             <div className="canvas">
-              <Canvas camera={{ position: [0.35, 0.2, 0.35] }}>
-                <OrbitControls />
-                <ambientLight intensity={0.7} />
-                <directionalLight position={[14, 12, 25]} intensity={1} />
-                <group ref={group}>
-                  <Backpack color={color} material={material} metall={metall} isArVisible={isArVisible} />
-                </group>
-              </Canvas>
+              {isLoading && (
+                <h2>Loading...</h2>
+              )}
+              {!isLoading && (
+                <Canvas camera={{ position: [0.35, 0.2, 0.35] }}>
+                  <OrbitControls />
+                  <ambientLight intensity={0.7} />
+                  <directionalLight position={[14, 12, 25]} intensity={1} />
+                  <group ref={group}>
+                  <Backpack backpack={backpack} color={color} material={material} metall={metall} isArVisible={isArVisible} />
+                  </group>
+                </Canvas>
+              )}
             </div>
 
             <div className="qr_container">
