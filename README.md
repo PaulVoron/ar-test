@@ -7,6 +7,6 @@ Implemented adaptived design for desktop and mobile. The app allows you to see t
 You can put it on any surface in your real enviroment and see it throw the mobile screen.
 
 ## Used tech stack:
-`React`, `Three`, `React-Three/Drei`, `React-Three/Fiber` </br>
+`React`, `Three`, `React-Three/Drei`, `React-Three/Fiber`, `React-AR-Viewer`</br>
 
  - [DEMO LINK](https://paulvoron.github.io/ar-test/)
