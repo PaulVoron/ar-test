@@ -1,11 +1,14 @@
 import React, { useRef } from 'react';
 import * as THREE from 'three';
 import { useLoader } from '@react-three/fiber';
-import 'aframe';
-import 'aframe-ar';
 import  ModelViewer  from 'react-ar-viewer';
-// import { Entity, Scene } from 'aframe-react';
-// import "@google/model-viewer/dist/model-viewer";
+import { 
+  createBodyMaterialDenim,
+  createBodyMaterialFabric,
+  createBodyMaterialLeather,
+  createMetallMaterial,
+  createStrapMaterial,
+} from '../utils/materials';
 
 const Backpack = ({ backpack, color, material, metall, isArVisible }) => {
   const group = useRef();
@@ -44,69 +47,39 @@ const Backpack = ({ backpack, color, material, metall, isArVisible }) => {
     'https://myassetsfordev.s3.eu-north-1.amazonaws.com/strap_occlusionRoughnessMetallic.jpg',
   ]);
 
-  // const backpackObject = backpack.nodes.Back_pack_001;
   const bodyObject = backpack.nodes.Mesh;
   const metallObject = backpack.nodes.Mesh_1;
   const strapObject = backpack.nodes.Mesh_2;
 
-  denimBaseColorTexture.flipY = false;
-  denimNormalTexture.flipY = false;
-  denimOrmTexture.flipY = false;
-  fabricBaseColorTexture.flipY = false;
-  fabricNormalTexture.flipY = false;
-  fabricOrmTexture.flipY = false;
-  leatherBaseColorTexture.flipY = false;
-  leatherNormalTexture.flipY = false;
-  leatherOrmTexture.flipY = false;
-  metallBaseColorTexture.flipY = false;
-  metallNormalTexture.flipY = false;
-  metallOrmTexture.flipY = false;
-  strapBaseColorTexture.flipY = false;
-  strapNormalTexture.flipY = false;
-  strapOrmTexture.flipY = false;
+  const bodyMaterialDenim = createBodyMaterialDenim(
+    denimBaseColorTexture,
+    denimNormalTexture,
+    denimOrmTexture
+  );
 
-  // Creating materials
-  const bodyMaterialDenim = new THREE.MeshStandardMaterial({
-    map: denimBaseColorTexture,
-    normalMap: denimNormalTexture,
-    aoMap: denimOrmTexture,
-    roughnessMap: denimOrmTexture,
-    metalnessMap: denimOrmTexture,
-  });
+  const bodyMaterialFabric = createBodyMaterialFabric(
+    fabricBaseColorTexture,
+    fabricNormalTexture,
+    fabricOrmTexture
+  );
 
-  const bodyMaterialFabric = new THREE.MeshStandardMaterial({
-    map: fabricBaseColorTexture,
-    normalMap: fabricNormalTexture,
-    aoMap: fabricOrmTexture,
-    roughnessMap: fabricOrmTexture,
-    metalnessMap: fabricOrmTexture,
-  });
+  const bodyMaterialLeather = createBodyMaterialLeather(
+    leatherBaseColorTexture,
+    leatherNormalTexture,
+    leatherOrmTexture
+  );
 
-  const bodyMaterialLeather = new THREE.MeshStandardMaterial({
-    map: leatherBaseColorTexture,
-    normalMap: leatherNormalTexture,
-    aoMap: leatherOrmTexture,
-    roughnessMap: leatherOrmTexture,
-    metalnessMap: leatherOrmTexture,
-  });
+  const metallMaterial = createMetallMaterial(
+    metallBaseColorTexture,
+    metallNormalTexture,
+    metallOrmTexture
+  );
 
-  const metallMaterial = new THREE.MeshStandardMaterial({
-    map: metallBaseColorTexture,
-    normalMap: metallNormalTexture,
-    aoMap: metallOrmTexture,
-    roughnessMap: metallOrmTexture,
-    metalnessMap: metallOrmTexture,
-    metalness: 1,
-    roughness: 0.2,
-  });
-
-  const strapMaterial = new THREE.MeshStandardMaterial({
-    map: strapBaseColorTexture,
-    normalMap: strapNormalTexture,
-    aoMap: strapOrmTexture,
-    roughnessMap: strapOrmTexture,
-    metalnessMap: strapOrmTexture,
-  });
+  const strapMaterial = createStrapMaterial(
+    strapBaseColorTexture,
+    strapNormalTexture,
+    strapOrmTexture
+  );
 
   switch (material) {
     case 'leather':
@@ -146,17 +119,6 @@ const Backpack = ({ backpack, color, material, metall, isArVisible }) => {
 
   return (
     <>
-      {/* {isArVisible && (
-        <Scene embedded arjs='sourceType: webcam'>
-          <a-camera-static/>
-          <a-gltf-model 
-            src="https://myassetsfordev.s3.eu-north-1.amazonaws.com/backpack.glb"
-            scale="1.05 1.05 1.05"
-            rotation="0 -45 0"
-            position="0 1 -1"
-          ></a-gltf-model>
-        </Scene>
-      )} */}
       {isArVisible && (
         <ModelViewer
           buttonImage={'https://picsum.photos/200/200'}
